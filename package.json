@@ -1,0 +1,42 @@
+{
+  "name": "p5.dataframe",
+  "version": "0.0.1",
+  "description": "A friendly and intuitive data analysis library for p5.js",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "test": "karma start --single-run --browsers ChromeHeadless karma.conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nickmcintyre/p5.dataframe.git"
+  },
+  "keywords": [
+    "p5",
+    "dataframe",
+    "pandas"
+  ],
+  "author": "Nick McIntyre",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nickmcintyre/p5.dataframe/issues"
+  },
+  "homepage": "https://github.com/nickmcintyre/p5.dataframe#readme",
+  "devDependencies": {
+    "eslint": "^8.18.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "karma": "^6.3.19",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^3.1.1",
+    "karma-mocha": "^2.0.1",
+    "mocha": "^10.0.0",
+    "p5": "^1.4.1",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.3",
+    "mathjs": "^10.5.3"
+  }
+}
