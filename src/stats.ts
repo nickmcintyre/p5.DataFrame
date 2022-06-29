@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import * as math from 'mathjs';
 import { Table } from 'p5';
 
