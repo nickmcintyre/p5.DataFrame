@@ -14,6 +14,7 @@ declare module 'p5' {
  */
 Table.prototype.print = function _print(column?: string): void {
   const tableObject: object = this.getObject(column);
+  // eslint-disable-next-line no-console
   console.table(tableObject);
 };
 
