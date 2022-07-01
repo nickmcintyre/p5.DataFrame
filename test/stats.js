@@ -273,4 +273,65 @@ describe('Statistics', function () {
       expect(t.sd().getRow(0).arr).to.eql([3, 3, 3]);
     });
   });
+
+  describe('describe()', function () {
+    it('Should return a table with row labels', function () {
+      const t1 = new p5.Table();
+      t1.columns = ['a', 'b', 'c'];
+      let row = t1.addRow();
+      row.setNum('a', 1);
+      row.setNum('b', 2);
+      row.setNum('c', 3);
+      row = t1.addRow();
+      row.setNum('a', 4);
+      row.setNum('b', 5);
+      row.setNum('c', 6);
+      row = t1.addRow();
+      row.setNum('a', 7);
+      row.setNum('b', 8);
+      row.setNum('c', 9);
+      const t2 = t1.describe();
+      expect(t2.getColumn('stat')).to.eql(['count', 'mean', 'sd', 'min', '25%', '50%', '75%', 'max']);
+    });
+
+    it('Should return a table with numeric columns', function () {
+      const t1 = new p5.Table();
+      t1.columns = ['a', 'b', 'c'];
+      let row = t1.addRow();
+      row.setNum('a', 1);
+      row.setNum('b', 2);
+      row.setNum('c', 3);
+      row = t1.addRow();
+      row.setNum('a', 4);
+      row.setNum('b', 5);
+      row.setNum('c', 6);
+      row = t1.addRow();
+      row.setNum('a', 7);
+      row.setNum('b', 8);
+      row.setNum('c', 9);
+      const t2 = t1.describe();
+      expect(t2.columns).to.eql(['stat', 'a', 'b', 'c']);
+    });
+
+    it('Should compute summary statistics for each numeric column', function () {
+      const t1 = new p5.Table();
+      t1.columns = ['a', 'b', 'c'];
+      let row = t1.addRow();
+      row.setNum('a', 1);
+      row.setNum('b', 2);
+      row.setNum('c', 3);
+      row = t1.addRow();
+      row.setNum('a', 4);
+      row.setNum('b', 5);
+      row.setNum('c', 6);
+      row = t1.addRow();
+      row.setNum('a', 7);
+      row.setNum('b', 8);
+      row.setNum('c', 9);
+      const t2 = t1.describe();
+      expect(t2.getColumn('a')).to.eql([3, 4, 3, 1, 2.5, 4, 5.5, 7]);
+      expect(t2.getColumn('b')).to.eql([3, 5, 3, 2, 3.5, 5, 6.5, 8]);
+      expect(t2.getColumn('c')).to.eql([3, 6, 3, 3, 4.5, 6, 7.5, 9]);
+    });
+  });
 });
