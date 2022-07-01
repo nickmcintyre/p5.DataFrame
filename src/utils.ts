@@ -4,6 +4,12 @@ declare module 'p5' {
   interface Table {
     print(column?: string): void;
     inferTypes(): void;
+    isNull(): Table;
+    notNull(): Table;
+    any(column?: string): boolean | Table;
+    all(column?: string): boolean | Table;
+    map(func: Function): Table;
+    isin(values: any[]): Table;
   }
 }
 
@@ -18,6 +24,12 @@ Table.prototype.print = function _print(column?: string): void {
   console.table(tableObject);
 };
 
+/**
+ * Converts the table elements to numbers if possible.
+ *
+ * @param {Table} table   the table to convert
+ * @param {string} column the column to convert
+ */
 const asNum = (table: Table, column: string): void => {
   table.rows.forEach((row: TableRow) => {
     const num: number = row.getNum(column);
@@ -25,6 +37,9 @@ const asNum = (table: Table, column: string): void => {
   });
 };
 
+/**
+ * Infers the type of table elements.
+ */
 Table.prototype.inferTypes = function _inferTypes(): void {
   this.columns.forEach((column: string) => {
     try {
@@ -33,4 +48,151 @@ Table.prototype.inferTypes = function _inferTypes(): void {
       // pass silently
     }
   });
+};
+
+/**
+ * Checks whether p5.Table elements are null-ish.
+ *
+ * @returns a table of booleans showing whether each
+ *          element is null-ish
+ */
+Table.prototype.isNull = function _isNull(): Table {
+  const output: Table = new Table();
+  output.columns = this.columns;
+  this.rows.forEach((row: TableRow) => {
+    const newRow: TableRow = output.addRow();
+    output.columns.forEach((column) => {
+      const value: any = row.get(column);
+      if (value === undefined || value === null || Number.isNaN(value)) {
+        // @ts-ignore
+        newRow.set(column, true);
+      } else {
+        // @ts-ignore
+        newRow.set(column, false);
+      }
+    });
+  });
+  return output;
+};
+
+/**
+ * Checks whether p5.Table elements are defined.
+ *
+ * @returns a table of booleans showing whether each
+ *          element is defined
+ */
+Table.prototype.notNull = function _notNull(): Table {
+  const output: Table = new Table();
+  output.columns = this.columns;
+  this.rows.forEach((row: TableRow) => {
+    const newRow: TableRow = output.addRow();
+    output.columns.forEach((column: string) => {
+      const value: any = row.get(column);
+      if (value === undefined || value === null || Number.isNaN(value)) {
+        // @ts-ignore
+        newRow.set(column, false);
+      } else {
+        // @ts-ignore
+        newRow.set(column, true);
+      }
+    });
+  });
+  return output;
+};
+
+/**
+ * Checks whether any of the elements in a column are truthy.
+ *
+ * @param {string} [column] the name of the column to analyze
+ * @returns                 a boolean or table of booleans showing whether
+ *                          each element is defined
+ */
+Table.prototype.any = function _any(column?: string): boolean | Table {
+  if (column === undefined) {
+    const output: Table = new Table();
+    output.columns = this.columns;
+    const row: TableRow = output.addRow();
+    output.columns.forEach((col: string) => {
+      const c: any[] = this.getColumn(col);
+      const value: boolean = c.reduce((prev, curr) => prev || curr);
+      // @ts-ignore
+      row.set(col, value);
+    });
+    return output;
+  }
+  const col: any[] = this.getColumn(column);
+  const output: boolean = col.reduce((prev, curr) => prev || curr);
+  return output;
+};
+
+/**
+ * Checks whether all of the elements in a column are truthy.
+ *
+ * @param {string} [column] the name of the column to analyze
+ * @returns                 a boolean or table of booleans showing whether
+ *                          each element is defined
+ */
+Table.prototype.all = function _all(column?: string): boolean | Table {
+  if (column === undefined) {
+    const output: Table = new Table();
+    output.columns = this.columns;
+    const row: TableRow = output.addRow();
+    output.columns.forEach((col: string) => {
+      const c: any[] = this.getColumn(col);
+      const value: boolean = c.reduce((prev, curr) => prev && curr);
+      // @ts-ignore
+      row.set(col, value);
+    });
+    return output;
+  }
+  const col: any[] = this.getColumn(column);
+  const output: boolean = col.reduce((prev, curr) => prev && curr);
+  return output;
+};
+
+/**
+ * Applies a function to each element in a p5.Table.
+ *
+ * @param {function} func  the function to apply
+ * @returns                the transformed table
+ */
+Table.prototype.map = function _map(func: Function): Table {
+  const output: Table = new Table();
+  output.columns = this.columns;
+  this.rows.forEach((row: TableRow) => {
+    const newRow: TableRow = output.addRow();
+    output.columns.forEach((col: string) => {
+      newRow.set(col, func(row.get(col)));
+    });
+  });
+  return output;
+};
+
+/**
+ * Checks whether values are present in a table.
+ *
+ * @param {any[]} values the values to check
+ * @returns              a table of booleans showing whether each
+ *                       element is contained in values
+ */
+Table.prototype.isin = function _isin(values: any[]): Table {
+  const output: Table = new Table();
+  output.columns = this.columns;
+  this.rows.forEach((row) => {
+    const newRow: TableRow = output.addRow();
+    output.columns.forEach((col: string) => {
+      // @ts-ignore
+      newRow.set(col, false);
+      const tableVal: any = row.get(col);
+      values.every((value) => {
+        if (tableVal === value) {
+          // @ts-ignore
+          newRow.set(col, true);
+          return false;
+        }
+        return true;
+      });
+    });
+  });
+  return output;
 };
