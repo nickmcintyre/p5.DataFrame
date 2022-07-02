@@ -1,6 +1,6 @@
 {
   "name": "p5.dataframe",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A friendly and intuitive data analysis library for p5.js",
   "main": "index.js",
   "scripts": {
