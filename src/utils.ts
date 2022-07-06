@@ -1,4 +1,5 @@
 import * as dayjs from 'dayjs';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { Table, TableRow } from 'p5';
 
 declare module 'p5' {
