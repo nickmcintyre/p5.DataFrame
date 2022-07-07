@@ -147,46 +147,35 @@ Table.prototype.min = function _min(column: string): number | Table {
 /**
  * Computes the standard deviation of an array.
  *
- * @param {number[]} array         the array of numbers
- * @param {string} [normalization] the type of normalization to apply
- *                                   - 'unbiased' sum of squared errors divided by n - 1
- *                                   - 'uncorrected' sum of squared errors divided by n
- *                                   - 'biased' sum of squared errors divided by n + 1
- * @returns                        the standard deviation
+ * @param {number[]} array  the array of numbers
+ * @param {number} [ddof]   the delta degrees of freedom is used to divide the sum
+ *                          of squared errors: sum(se) / (n - ddof)
+ * @returns                 the standard deviation
  */
-const sd = (array: number[], normalization: string = 'uncorrected'): number => {
+const sd = (array: number[], ddof: number = 0): number => {
   const n: number = array.length;
   const mu: number = mean(array);
   const se: number[] = array.map((a) => (a - mu) ** 2);
-  let variance: number;
-  if (normalization === 'unbiased') {
-    variance = se.reduce((a, b) => a + b) / (n - 1);
-  } else if (normalization === 'uncorrected') {
-    variance = mean(se);
-  } else if (normalization === 'biased') {
-    variance = se.reduce((a, b) => a + b) / (n + 1);
-  }
+  const variance = se.reduce((a, b) => a + b) / (n - ddof);
   return Math.sqrt(variance);
 };
 
 /**
  * Computes the standard deviation of a column or set of columns.
  *
- * @param {string} [column]        the name of the column to analyze
- * @param {string} [normalization] the type of normalization to apply
- *                                   - 'unbiased' sum of squared errors divided by n - 1
- *                                   - 'uncorrected' sum of squared errors divided by n
- *                                   - 'biased' sum of squared errors divided by n + 1
- * @returns                        the standard deviation, either as a number or as a table
+ * @param {string} [column] the name of the column to analyze
+ * @param {number} [ddof]   the delta degrees of freedom is used to divide the sum
+ *                          of squared errors: sum(se) / (n - ddof)
+ * @returns                 the standard deviation, either as a number or as a table
  */
-Table.prototype.sd = function _sd(column: string, normalization: string = 'uncorrected'): number | Table {
-  return computeStat(this, column, sd, [normalization]);
+Table.prototype.sd = function _sd(column: string, ddof: number = 0): number | Table {
+  return computeStat(this, column, sd, [ddof]);
 };
 
 /**
  * Computes the summary statistics of a p5.Table.
  *
- * @returns     the table of summary stats
+ * @returns the table of summary stats
  */
 Table.prototype.describe = function _describe(): Table {
   const output: Table = new Table();
