@@ -154,7 +154,7 @@ Table.prototype.min = function _min(column: string): number | Table {
  *                                   - 'biased' sum of squared errors divided by n + 1
  * @returns                        the standard deviation
  */
-const sd = (array: number[], normalization: string = 'unbiased'): number => {
+const sd = (array: number[], normalization: string = 'uncorrected'): number => {
   const n: number = array.length;
   const mu: number = mean(array);
   const se: number[] = array.map((a) => (a - mu) ** 2);
@@ -179,7 +179,7 @@ const sd = (array: number[], normalization: string = 'unbiased'): number => {
  *                                   - 'biased' sum of squared errors divided by n + 1
  * @returns                        the standard deviation, either as a number or as a table
  */
-Table.prototype.sd = function _sd(column: string, normalization: string = 'unbiased'): number | Table {
+Table.prototype.sd = function _sd(column: string, normalization: string = 'uncorrected'): number | Table {
   return computeStat(this, column, sd, [normalization]);
 };
 
