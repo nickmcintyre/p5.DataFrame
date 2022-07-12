@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import * as dayjs from 'dayjs';
+import * as dayOfYear from 'dayjs/plugin/dayOfYear';
 import * as customParseFormat from 'dayjs/plugin/customParseFormat';
 import * as localizedFormat from 'dayjs/plugin/localizedFormat';
 import * as localeData from 'dayjs/plugin/localeData';
@@ -189,6 +190,7 @@ declare module 'p5' {
 }
 
 // Enable dayjs plugins
+dayjs.extend(dayOfYear);
 dayjs.extend(localeData);
 dayjs.localeData();
 dayjs.extend(customParseFormat);
