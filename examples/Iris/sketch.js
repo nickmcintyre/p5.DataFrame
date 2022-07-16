@@ -6,9 +6,11 @@ function preload() {
 
 function setup() {
   noCanvas()
-  // iris.print() // raw dataset
   iris.inferTypes()
-  // iris.print() // dataset with types inferred
+  print('Beginning of Iris dataset')
+  iris.head(5)
+  print('End of Iris dataset')
+  iris.tail(5)
   print('Iris dataset summary by column')
   let summary = iris.describe()
   summary.print()
