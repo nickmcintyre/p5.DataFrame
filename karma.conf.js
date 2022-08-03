@@ -3,7 +3,7 @@ module.exports = function (config) {
     frameworks: ['mocha', 'chai'],
     files: [
       'node_modules/p5/lib/p5.min.js',
-      'dist/p5.dataframe.js',
+      'dist/p5.tidy.js',
       'test/**/*.js',
     ],
     reporters: ['progress'],

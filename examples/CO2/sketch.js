@@ -1,14 +1,14 @@
-let co2
+let data;
 
 function preload() {
-  co2 = loadTable('co2.csv', 'csv', 'header', (table) => {
-    table.parseDates('date')
-    table.inferTypes()
-  })
+  data = loadTable('co2.csv', 'csv', 'header');
 }
 
 function setup() {
   noCanvas()
-  print('Atmospheric Carbon Dioxide at Mauna Loa')
-  co2.print()
+  const results = tidy(
+    data,
+    filter((d) => d.mean > 400),
+  );
+  tidy(results, debug('Observations greater than 400ppm CO2'));
 }

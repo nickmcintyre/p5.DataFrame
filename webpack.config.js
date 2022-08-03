@@ -18,7 +18,7 @@ module.exports = {
   devtool: 'inline-source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'p5.dataframe.js',
+    filename: 'p5.tidy.js',
   },
   externals: {
     p5: 'p5',

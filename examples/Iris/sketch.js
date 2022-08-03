@@ -1,20 +1,31 @@
-let iris
+let data;
 
 function preload() {
-  iris = loadTable('iris.csv', 'csv', 'header')
+  data = loadTable('iris.csv', 'csv', 'header');
 }
 
 function setup() {
-  noCanvas()
-  iris.inferTypes()
-  print('Beginning of Iris dataset')
-  iris.head(5)
-  print('End of Iris dataset')
-  iris.tail(5)
-  print('Iris dataset summary by column')
-  let summary = iris.describe()
-  summary.print()
-  print('Mean by species')
-  let mean = iris.groupby('Species').mean()
-  mean.print()
+  noCanvas();
+  tidy(
+    data,
+    sliceHead(5),
+    debug('Beginning of Iris dataset'),
+  );
+  tidy(
+    data,
+    sliceTail(5),
+    debug('End of Iris dataset'),
+  );
+  tidy(
+    data,
+    groupBy('Species', [
+      summarize({
+        min: min('PetalLength'),
+        median: median('PetalLength'),
+        max: max('PetalLength'),
+        variance: variance('PetalLength'),
+      }),
+    ]),
+    debug('PetalLength summary by species'),
+  );
 }
