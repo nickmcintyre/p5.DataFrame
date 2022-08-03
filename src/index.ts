@@ -242,7 +242,7 @@ p5.prototype.min = function _min(...args) {
   // @ts-ignore
   return min(...args);
 };
-p5.prototype.num = n;
+p5.prototype.nRows = n;
 p5.prototype.nDistinct = nDistinct;
 p5.prototype.sum = sum;
 p5.prototype.variance = variance;
