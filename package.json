@@ -1,6 +1,6 @@
 {
   "name": "p5.tidy",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A data manipulation grammar for p5.js",
   "main": "index.js",
   "scripts": {
@@ -46,9 +46,9 @@
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
-    "@tidyjs/tidy": "^2.4.6",
+    "@tidyjs/tidy": "^2.5.1",
     "d3-array": "^3.2.0",
-    "dayjs": "^1.11.4",
+    "dayjs": "^1.11.5",
     "ts-toolbelt": "^9.6.0"
   }
 }
