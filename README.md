@@ -59,9 +59,9 @@ function setup() {
 /**
 [tidy.debug] PetalLength summary by species -----------------------------------
 console.table()
-(index)	Species	    min	    median	max	    variance
-0	    setosa	    1.0	    1.5	    1.9	    0.030106122448979606
-1	    versicolor	3.0	    4.35	5.1	    0.22081632653061217
-2	    virginica	4.5	    5.55	6.9	    0.30458775510204095
+(index) Species     min  median  max  variance
+0       setosa      1.0	 1.5     1.9  0.030106122448979606
+1       versicolor  3.0  4.35    5.1  0.22081632653061217
+2       virginica   4.5  5.55    6.9  0.30458775510204095
 **/
 ```
