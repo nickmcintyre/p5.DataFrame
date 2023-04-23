@@ -1,7 +1,7 @@
 let data;
 
 function preload() {
-  data = loadTable('co2.csv', 'csv', 'header');
+  data = loadTable("co2.csv", "csv", "header");
 }
 
 function setup() {
@@ -10,5 +10,5 @@ function setup() {
     data,
     filter((d) => d.mean > 400),
   );
-  tidy(results, debug('Observations greater than 400ppm CO2'));
+  tidy(results, debug("Observations greater than 400ppm CO2"));
 }
